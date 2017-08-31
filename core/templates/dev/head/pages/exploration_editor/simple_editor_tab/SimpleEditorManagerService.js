@@ -111,6 +111,7 @@ oppia.factory('SimpleEditorManagerService', [
         return true;
       },
       getData: function() {
+        console.log(data);
         return data;
       },
       getTitle: function() {
@@ -178,7 +179,6 @@ oppia.factory('SimpleEditorManagerService', [
         var currentStateName = data.questionList.getAllStateNames()[index];
         var currentInteractionId = (
           SimpleEditorShimService.getInteractionId(currentStateName));
-          console.log(data.questionList);
         // Update the question type if the interaction ID has changed.
         if (newInteractionId !== currentInteractionId) {
           var nextStateName = data.questionList.getAllStateNames()[index + 1];
@@ -203,12 +203,14 @@ oppia.factory('SimpleEditorManagerService', [
                   FIRST_ANSWER_GROUP_RULE.value
               )
             ], OutcomeObjectFactory.createEmpty(nextStateName), false));
+            console.log(JSON.stringify(nextStateName));
             SimpleEditorShimService.saveAnswerGroups(
               currentStateName, newAnswerGroups);
           }
         }
         // Update the question in the locally-stored questionList.
       var questions = StatesToQuestionsService.getQuestions();
+      console.log(JSON.stringify(questions));
      data.questionList.updateQuestion(index, questions[index]);
       },
       deleteQuestion: function(question) {
