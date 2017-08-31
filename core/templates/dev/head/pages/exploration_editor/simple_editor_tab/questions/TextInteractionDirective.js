@@ -69,39 +69,55 @@ oppia.directive('textInteraction', [
                     // Note that a questionId generated in this way may contain spaces,
                     // since it is just the state name.
                     $scope.questionId = $scope.getUniqueId();
+                    var answerGroups = $scope.getAnswerGroups();
 
                     $scope.getSubfieldId = function(label) {
-                        return QuestionIdService.getSubfieldId($scope.questionId, label);
+                      return QuestionIdService.getSubfieldId($scope.questionId, label);
                     };
 
                     $scope.getFieldId = function(index) {
-                        return $scope.questionId + '.' + index;
+                      return $scope.questionId + '.' + index;
                     };
 
-                    $scope.getPlaceholder() = function() {
-                      return 'df';
+                    $scope.getAnswer = function() {
+                      if (answerGroups.length !== 0) {
+                        return answerGroups[0].rules[0].inputs.x;
+                      }
                     };
 
-                    $scope.updatePlaceholder() = function(placeholderText) {
-                      return 'df';
+                    $scope.saveAnswer = function(newAnswer) {
+                      var newAnswerGroups = answerGroups;
+                      newAnswerGroups[0].rules[0].inputs.x = newAnswer;
+                      $scope.saveAnswerGroups({
+                        newValue: newAnswerGroups
+                      });
                     };
 
-                    $scope.updateAnswer = function(newText) {
-                        if (!newText) {
-                            alertsService.addWarning('Cannot save an empty answer.');
-                            return StatusObjectFactory.createFailure(
-                                'Cannot save an empty answer'
-                            );
-                        }
+                    $scope.saveCorrectAnswerFeedback = function(newFeedback) {
+                      var newAnswerGroup = answerGroups;
+                      if (newAnswerGroup.length === 0) {
+                        throw Error('Empty answer groups detected');
+                      }
+                      newAnswerGroups[0].outcome.feedback[0] = newFeedback;
+                      $scope.saveAnswerGroups({
+                        newValue: newAnswerGroups
+                      });
                     };
 
-                    $scope.updateType = function(index) {
-                        var newCustomizationArgs = $scope.getCustomizationArgs();
-                        if (newCustomizationArgs.choices.value.length === 1) {
-                            throw Error(
-                                'Cannot update text interaction type.');
-                        }
+                    $scope.getDefaultOutcome = function() {
+                      var defaultOutcome = $scope.getRawDefaultOutcome();
+                      if (defaultOutcome.feedback.length === 0) {
+                        defaultOutcome.feedback.push('');
+                      }
+                      return defaultOutcome;
+                    };
 
+                    $scope.saveDefaultFeedback = function(newFeedback) {
+                      var newDefaultOutcome = $scope.getDefaultOutcome();
+                      newDefaultOutcome.feedback[0] = newFeedback;
+                      $scope.saveDefaultOutcome({
+                        newValue: newDefaultOutcome
+                      });
                     };
 
                 }
