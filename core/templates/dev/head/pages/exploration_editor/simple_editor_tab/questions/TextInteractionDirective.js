@@ -80,28 +80,42 @@ oppia.directive('textInteraction', [
                     };
 
                     $scope.getAnswer = function() {
+                      var newAnswerGroups = $scope.getAnswerGroups();
                       if (answerGroups.length !== 0) {
-                        return answerGroups[0].rules[0].inputs.x;
+                        return newAnswerGroups[0].rules[0].inputs.x;
                       }
                     };
 
                     $scope.saveAnswer = function(newAnswer) {
                       var newAnswerGroups = answerGroups;
-                      newAnswerGroups[0].rules[0].inputs.x = newAnswer;
-                      $scope.saveAnswerGroups({
-                        newValue: newAnswerGroups
-                      });
+                      if(newAnswerGroups.length === 0 ) {
+                        var newStateName = $scope.addState();
+                        newAnswerGroups.push(AnswerGroupObjectFactory.createNew([
+                          RuleObjectFactory.createNew('Contains', {
+                            x: newAnswer
+                          })
+                        ], OutcomeObjectFactory.createEmpty(newStateName), false));
+
+                        $scope.saveAnswerGroups({
+                          newValue: newAnswerGroups
+                        });
+                      }
+                      else {
+                        newAnswerGroups[0].rules[0].inputs.x = newAnswer;
+                        $scope.saveAnswerGroups({
+                          newValue: newAnswerGroups
+                        });
+                     }
                     };
 
                     $scope.saveCorrectAnswerFeedback = function(newFeedback) {
-                      var newAnswerGroup = answerGroups;
-                      if (newAnswerGroup.length === 0) {
-                        throw Error('Empty answer groups detected');
+                      var newAnswerGroups = $scope.getAnswerGroups();
+                      if (newAnswerGroups.length !== 0) {
+                        newAnswerGroups[0].outcome.feedback[0] = newFeedback;
+                        $scope.saveAnswerGroups({
+                          newValue: newAnswerGroups
+                        });
                       }
-                      newAnswerGroups[0].outcome.feedback[0] = newFeedback;
-                      $scope.saveAnswerGroups({
-                        newValue: newAnswerGroups
-                      });
                     };
 
                     $scope.getDefaultOutcome = function() {

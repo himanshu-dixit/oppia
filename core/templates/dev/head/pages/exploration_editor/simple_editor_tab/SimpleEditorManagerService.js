@@ -178,13 +178,13 @@ oppia.factory('SimpleEditorManagerService', [
         var currentStateName = data.questionList.getAllStateNames()[index];
         var currentInteractionId = (
           SimpleEditorShimService.getInteractionId(currentStateName));
+          console.log(data.questionList);
         // Update the question type if the interaction ID has changed.
         if (newInteractionId !== currentInteractionId) {
           var nextStateName = data.questionList.getAllStateNames()[index + 1];
           var questionCount = data.questionList.getQuestionCount();
           var doesLastQuestionHaveAnswerGroups = (
             data.questionList.doesLastQuestionHaveAnswerGroups());
-          console.log(newInteractionId);
           SimpleEditorShimService.saveInteractionId(
             currentStateName, newInteractionId);
           SimpleEditorShimService.saveCustomizationArgs(
