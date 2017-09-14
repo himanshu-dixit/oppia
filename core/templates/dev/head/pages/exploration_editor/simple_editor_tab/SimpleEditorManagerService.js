@@ -203,6 +203,8 @@ oppia.factory('SimpleEditorManagerService', [
                   FIRST_ANSWER_GROUP_RULE.value
               )
             ], OutcomeObjectFactory.createEmpty(nextStateName), false));
+            console.log(data.questionList.getAllStateNames());
+            console.log(currentStateName);
             console.log(JSON.stringify(nextStateName));
             SimpleEditorShimService.saveAnswerGroups(
               currentStateName, newAnswerGroups);
