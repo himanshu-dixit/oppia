@@ -47,7 +47,7 @@ oppia.constant('ENABLE_ML_CLASSIFIERS', false);
 oppia.constant('ENABLE_NEW_STATS_FRAMEWORK', false);
 // Feature still in development.
 oppia.constant('INFO_MESSAGE_SOLUTION_IS_INVALID',
-  'The current solution does not lead to another card.');
+  'The current solution does not lead tfo another card.');
 oppia.constant('INFO_MESSAGE_SOLUTION_IS_VALID',
   'The solution is now valid!');
 oppia.constant('INFO_MESSAGE_SOLUTION_IS_INVALID_FOR_CURRENT_RULE',

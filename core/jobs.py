@@ -75,7 +75,7 @@ NUM_JOBS_IN_DASHBOARD_LIMIT = 100
 
 
 class BaseJobManager(object):
-    """Base class for managing long-running jobs.
+    """Base class for manafging long-running jobs.
 
     These jobs are not transaction-safe, and multiple jobs of the same kind
     may run at once and overlap. Individual jobs should account for this. In
